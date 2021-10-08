@@ -23,12 +23,12 @@ import com.github.scribejava.core.builder.api.BaseApi;
  */
 public class TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance();
-	public static final String REST_URL = "Api"; // Change this, base API URL
+	public static final String REST_URL = "API"; // Change this, base API URL
 	public static final String REST_CONSUMER_KEY = BuildConfig.CONSUMER_KEY;       // Change this inside apikey.properties
 	public static final String REST_CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET; // Change this inside apikey.properties
 
 	// Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
-	public static final String FALLBACK_URL = "URL";
+	public static final String FALLBACK_URL = "API";
 
 	// See https://developer.chrome.com/multidevice/android/intents
 	public static final String REST_CALLBACK_URL_TEMPLATE = "API";
@@ -45,20 +45,20 @@ public class TwitterClient extends OAuthBaseClient {
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
 	public void getHomeTimeline(JsonHttpResponseHandler handler) {
-		String apiUrl = getApiUrl("ApiURL");
+		String apiUrl = getApiUrl("API");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		params.put("since_id", 1);
 		client.get(apiUrl, params, handler);
 	}
-	public void getNextPageOfTweets(JsonHttpResponseHandler handler, long maxId) {
-		String apiUrl = getApiUrl("ApiURL");
+
+	public void publishTweet(String tweetContent, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("API");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
-		params.put("count", 25);
-		params.put("max_id", maxId);
-		client.get(apiUrl, params, handler);
+		params.put("status", tweetContent);
+		client.post(apiUrl, params, "",handler);
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
